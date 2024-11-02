@@ -19,9 +19,9 @@ composer require craftsnippets/craft-fathom-analytics
 
 ## Usage
 
-In the plugin settings in the control panel, enter **Fathom site id** and make sure that **Include fathom tracking code** is enabled.
+In the plugin settings in the control panel, fill out  **Fathom site id** setting and make sure that **Include fathom tracking code** setting is enabled.
 
-In site template, include this code:
+In the site template, include this code:
 
 ```
 {% do craft.fathomAnalytics.outputTrackingCode() %}

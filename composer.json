@@ -1,7 +1,7 @@
 {
   "name": "craftsnippets/craft-fathom-analytics",
   "type": "craft-plugin",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "license": "mit",
   "support": {
     "email": "piotrpog@protonmail.com"
