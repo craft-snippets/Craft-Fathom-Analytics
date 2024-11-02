@@ -3,9 +3,13 @@
 namespace craftsnippets\fathomanalytics;
 
 use Craft;
+use yii\base\Event;
 use craft\base\Model;
 use craft\base\Plugin;
+use craft\web\twig\variables\CraftVariable;
 use craftsnippets\fathomanalytics\models\Settings;
+use craftsnippets\fathomanalytics\services\FrontendService;
+use craftsnippets\fathomanalytics\variables\FathomVariable;
 
 /**
  * Fathom Analytics integration plugin
@@ -15,6 +19,7 @@ use craftsnippets\fathomanalytics\models\Settings;
  * @author Piotr Pogorzelski <piotrpog@protonmail.com>
  * @copyright Piotr Pogorzelski
  * @license MIT
+ * @property-read FrontendService $frontendService
  */
 class FathomAnalytics extends Plugin
 {
@@ -24,23 +29,14 @@ class FathomAnalytics extends Plugin
     public static function config(): array
     {
         return [
-            'components' => [
-                // Define component configs here...
-            ],
+            'components' => ['frontend' => FrontendService::class],
         ];
     }
 
     public function init(): void
     {
         parent::init();
-
         $this->attachEventHandlers();
-
-        // Any code that creates an element query or loads Twig should be deferred until
-        // after Craft is fully initialized, to avoid conflicts with other plugins/modules
-        Craft::$app->onInit(function() {
-            // ...
-        });
     }
 
     protected function createSettingsModel(): ?Model
@@ -50,7 +46,7 @@ class FathomAnalytics extends Plugin
 
     protected function settingsHtml(): ?string
     {
-        return Craft::$app->view->renderTemplate('fathom-analytics-integration/_settings.twig', [
+        return Craft::$app->view->renderTemplate('fathom-analytics/_settings.twig', [
             'plugin' => $this,
             'settings' => $this->getSettings(),
         ]);
@@ -58,7 +54,15 @@ class FathomAnalytics extends Plugin
 
     private function attachEventHandlers(): void
     {
-        // Register event handlers here ...
-        // (see https://craftcms.com/docs/5.x/extend/events.html to get started)
+
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function (Event $event) {
+                /** @var CraftVariable $variable */
+                $variable = $event->sender;
+                $variable->set('fathomAnalytics', FathomVariable::class);
+            }
+        );
     }
 }

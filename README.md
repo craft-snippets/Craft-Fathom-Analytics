@@ -1,22 +1,10 @@
 # Fathom Analytics integration
 
-
-
 ## Requirements
 
-This plugin requires Craft CMS 5.4.0 or later, and PHP 8.2 or later.
+This plugin requires Craft CMS 5.0.0 or later, and PHP 8.2 or later.
 
 ## Installation
-
-You can install this plugin from the Plugin Store or with Composer.
-
-#### From the Plugin Store
-
-Go to the Plugin Store in your project’s Control Panel and search for “Fathom Analytics integration”. Then press “Install”.
-
-#### With Composer
-
-Open your terminal and run the following commands:
 
 ```bash
 # go to the project directory
@@ -27,4 +15,14 @@ composer require craftsnippets/craft-fathom-analytics
 
 # tell Craft to install the plugin
 ./craft plugin/install fathom-analytics-integration
+```
+
+## Usage
+
+In the plugin settings in the control panel, enter **Fathom site id** and make sure that **Include fathom tracking code** is enabled.
+
+In site template, include this code:
+
+```
+{% do craft.fathomAnalytics.outputTrackingCode() %}
 ```
